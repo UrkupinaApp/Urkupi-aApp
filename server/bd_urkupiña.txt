@@ -1,0 +1,68 @@
+-- Crear la base de datos "urkupina"
+CREATE DATABASE urkupina;
+
+-- Usar la base de datos creada
+USE urkupina;
+
+-- Crear la tabla "users"
+CREATE TABLE `users` (
+  `user_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(255),
+  `password` VARCHAR(255),
+  `rol` VARCHAR(255),
+  `dateCreated` DATE
+);
+
+-- Crear la tabla "UserSession"
+CREATE TABLE `UserSession` (
+  `session_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT,
+  `username` VARCHAR(255),
+  `date_login` DATE,
+  `date_logout` DATE,
+  `id_caja` INT,
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
+
+-- Crear la tabla "Cajas"
+CREATE TABLE `Cajas` (
+  `id_caja` INT AUTO_INCREMENT PRIMARY KEY,
+  `nombre_caja` VARCHAR(255)
+);
+
+-- Crear la tabla "clientes"
+CREATE TABLE `clientes` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `fullname` VARCHAR(255),
+  `telefono` INT,
+  `mail` VARCHAR(255),
+  `fila` INT,
+  `puesto` INT,
+  `metros` INT,
+  `creditos` INT,
+  `dni` VARCHAR(255),
+  `numero_tarjeta` INT
+);
+
+-- Crear la tabla "Creditos"
+CREATE TABLE `Creditos` (
+  `numero_carga` INT AUTO_INCREMENT PRIMARY KEY,
+  `numero_tarjeta` INT,
+  `creditos` INT,
+  `user_id` INT,
+  FOREIGN KEY (`user_id`) REFERENCES `clientes` (`id`)
+);
+
+-- Crear la tabla "Tickets"
+CREATE TABLE `Tickets` (
+  `N_ticket` VARCHAR(255) PRIMARY KEY,
+  `dia` VARCHAR(255),
+  `hora` TIME,
+  `qr_code` VARCHAR(255),
+  `baño` VARCHAR(255),
+  `caja` VARCHAR(255),
+  `carga` VARCHAR(255),
+  `precio` FLOAT,
+  `id_cliente` INT,
+  `user_id` INT
+);

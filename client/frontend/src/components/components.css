@@ -1,0 +1,16 @@
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    max-width: 500px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar horizontalmente */
+    padding: 20px;
+    background-color:rgba(255,255,255, 0.7);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top: 290px;
+}
+

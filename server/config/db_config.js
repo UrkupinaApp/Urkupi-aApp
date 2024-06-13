@@ -2,7 +2,7 @@ export const db_config = {
     "host":"localhost",
     "port":3002,
     "database":'urkupina',
-    "user":"admin",
-    "password":""
+    "user":"root",
+    "password":"urkupinaapp2024"
 }
 

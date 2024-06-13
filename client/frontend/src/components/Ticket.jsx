@@ -64,7 +64,7 @@ export const Ticket = () => {
         carga: "TRUE",
       };
 
-      const response = await fetch('http://192.168.0.130:3002/tickets/postTicket', {
+      const response = await fetch('http://localhost:3002/tickets/postTicket', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

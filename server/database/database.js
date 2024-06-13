@@ -4,7 +4,7 @@ function conectarDB() {
   const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'urkupinaapp2024',
     database: 'urkupina'
   });
 

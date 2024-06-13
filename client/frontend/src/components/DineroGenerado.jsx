@@ -9,7 +9,7 @@ const DineroGeneradoComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/tickets/calculoDinero');
+        const response = await axios.get('http://103.195.100.76:3002/tickets/calculoDinero');
         setTotalMoneyGenerated(response.data.totalMoneyGenerated);
       } catch (error) {
         console.error(error);

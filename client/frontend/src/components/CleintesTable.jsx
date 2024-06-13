@@ -14,7 +14,7 @@ const ClientesTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3002/clientes/clientes');
+        const response = await fetch('http://103.195.100.76:3002/clientes/clientes');
         if (!response.ok) {
           throw new Error('Error al obtener los datos de clientes');
         }

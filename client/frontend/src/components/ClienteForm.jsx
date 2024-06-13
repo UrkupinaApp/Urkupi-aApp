@@ -9,7 +9,7 @@ const ClienteForm = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await fetch('http://localhost:3002/clientes/insertCliente', {
+      const response = await fetch('http://103.195.100.76:3002/clientes/insertCliente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ const ClientesCargadosComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/clientes/cargados');
+        const response = await axios.get('http://103.195.100.76:3002/clientes/cargados');
         // Suponiendo que el servidor devuelve un objeto con una propiedad 'clientesCargados'
         //console.log(response)
 

@@ -124,7 +124,7 @@ export function Login() {
     setIsLoading(true);
     console.log(values)
     try {
-      const response = await fetch('http://192.168.0.40:3002/auth/login', {
+      const response = await fetch('http://103.195.100.76:3002/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

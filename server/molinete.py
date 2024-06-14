@@ -73,8 +73,7 @@ finally:
         print("Conexión a la base de datos cerrada.") """
 
 
-
-        import requests
+import requests
 import serial
 import time
 

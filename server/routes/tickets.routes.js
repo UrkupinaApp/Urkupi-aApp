@@ -9,7 +9,7 @@ TicketRoutes.get('/getTickets',GetTickets)
 TicketRoutes.post('/postTicket',PostTicket)
 TicketRoutes.get('/calculoDinero',DineroGenerado)
 TicketRoutes.post('/descargar',(req,res)=>{
-    res.send("prueba de tickets")
+    res.send("prueba de tickets").status(200)
 })
 
 

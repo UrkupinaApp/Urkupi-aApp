@@ -22,6 +22,44 @@ const GetTickets = (req,res)=>{
     })
 }
 
+const VerificarYActualizarTicket = (req, res) => {
+  const { numero_ticket } = req.body;  // Asumiendo que el número de ticket se pasa como 'numero_ticket'
+  let connect = conectarDB();
+
+  // Buscar el ticket por número de ticket
+  connect.query('SELECT carga FROM tickets WHERE N_ticket = ?', [numero_ticket], (err, results) => {
+      if (err) {
+          res.status(500).send(err);
+          connect.end();
+          return;
+      }
+
+      if (results.length > 0) {
+          const carga = results[0].carga;
+
+          // Verificar si carga es 'true'
+          if (carga.toLowerCase() === 'true') {
+              // Actualizar carga a 'false'
+              connect.query('UPDATE tickets SET carga = ? WHERE N_ticket = ?', ['false', numero_ticket], (err, result) => {
+                  if (err) {
+                      res.status(500).send(err);
+                  } else {
+                      res.status(200).send("Ticket actualizado y autorizado correctamente.");
+                  }
+                  connect.end();
+              });
+          } else {
+              res.status(500).send("No autorizado: carga es 'false'.");
+              connect.end();
+          }
+      } else {
+          res.status(404).send(`No se encontró un ticket con el número ${numero_ticket}.`);
+          connect.end();
+      }
+  });
+};
+
+
 const DineroGenerado =async(req,res)=>{
 
     try {
@@ -52,4 +90,4 @@ const DineroGenerado =async(req,res)=>{
 }
 
 
-module.exports ={PostTicket,GetTickets,DineroGenerado}
+module.exports ={PostTicket,GetTickets,DineroGenerado,VerificarYActualizarTicket}

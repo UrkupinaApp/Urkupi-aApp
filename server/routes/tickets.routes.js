@@ -8,6 +8,9 @@ const {PostTicket,GetTickets, DineroGenerado} =require('../controllers/ticket.co
 TicketRoutes.get('/getTickets',GetTickets)
 TicketRoutes.post('/postTicket',PostTicket)
 TicketRoutes.get('/calculoDinero',DineroGenerado)
+TicketRoutes.post('/descargar',(req,res)=>{
+    res.send("prueba de tickets")
+})
 
 
 module.exports=TicketRoutes

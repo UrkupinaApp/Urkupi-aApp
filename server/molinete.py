@@ -9,9 +9,9 @@ baudios = 9600
 
 # Configuración de la conexión a la base de datos
 config = {
-    'host': '192.168.0.40',
-    'user': 'molinete2',
-    'password': 'molinete2',
+    'host': '103.195.100.76',
+    'user': 'admin',
+    'password': 'admin',
     'database': 'urkupina'
 }
 

@@ -38,9 +38,9 @@ const VerificarYActualizarTicket = (req, res) => {
           const carga = results[0].carga;
 
           // Verificar si carga es 'true'
-          if (carga.toLowerCase() === 'true') {
+          if (carga.toLowerCase() === 'TRUE') {
               // Actualizar carga a 'false'
-              connect.query('UPDATE tickets SET carga = ? WHERE N_ticket = ?', ['false', numero_ticket], (err, result) => {
+              connect.query('UPDATE tickets SET carga = ? WHERE N_ticket = ?', ['FALSE', numero_ticket], (err, result) => {
                   if (err) {
                       res.status(500).send(err);
                   } else {

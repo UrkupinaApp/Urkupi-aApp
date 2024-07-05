@@ -22,7 +22,7 @@ const GetTickets = (req,res)=>{
     })
 }
 
-const VerificarYActualizarTicket = (req, res) => {
+/* const VerificarYActualizarTicket = (req, res) => {
   const { numero_ticket } = req.body;  // Asumiendo que el número de ticket se pasa como 'numero_ticket'
   let connect = conectarDB();
 
@@ -58,8 +58,50 @@ const VerificarYActualizarTicket = (req, res) => {
       }
   });
 };
+ */
 
 
+
+
+const VerificarYActualizarTicket = (req, res) => {
+    const { numero_ticket } = req.body;
+    let connect = conectarDB();
+  
+    connect.query('SELECT carga FROM tickets WHERE N_ticket = ?', [numero_ticket], (err, results) => {
+      if (err) {
+        console.error(`Error al buscar el ticket: ${err}`);
+        res.status(500).send(err);
+        connect.end();
+        return;
+      }
+  
+      if (results.length > 0) {
+        const carga = results[0].carga;
+  
+        if (carga.toLowerCase() === 'true') { // Asegúrate de comparar correctamente
+          connect.query('UPDATE tickets SET carga = ? WHERE N_ticket = ?', ['false', numero_ticket], (err, result) => {
+            if (err) {
+              console.error(`Error al actualizar el ticket: ${err}`);
+              res.status(500).send(err);
+            } else {
+              res.status(200).send("Ticket actualizado y autorizado correctamente.");
+            }
+            connect.end();
+          });
+        } else {
+          console.error(`No autorizado: carga es '${carga}'`);
+          res.status(403).send("No autorizado: carga es 'false'.");
+          connect.end();
+        }
+      } else {
+        console.error(`No se encontró un ticket con el número ${numero_ticket}.`);
+        res.status(404).send(`No se encontró un ticket con el número ${numero_ticket}.`);
+        connect.end();
+      }
+    });
+  };
+
+  
 const DineroGenerado =async(req,res)=>{
 
     try {

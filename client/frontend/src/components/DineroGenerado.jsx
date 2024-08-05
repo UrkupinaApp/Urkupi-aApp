@@ -10,6 +10,7 @@ const DineroGeneradoComponent = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://xn--urkupia-9za.store/tickets/calculoDinero');
+        
         setTotalMoneyGenerated(response.data.totalMoneyGenerated);
       } catch (error) {
         console.error(error);

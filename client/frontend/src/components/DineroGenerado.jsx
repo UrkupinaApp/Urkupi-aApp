@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Col, Card } from 'antd';
 import axios from 'axios';
 import { DollarCircleOutlined } from '@ant-design/icons';
-
+const url = "https://xn--urkupia-9za.store"
 const DineroGeneradoComponent = () => {
   const [totalMoneyGenerated, setTotalMoneyGenerated] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://xn--urkupia-9za.store/tickets/calculoDinero');
-        
+        const response = await axios.get(`${url}/tickets/calculoDinero`);
+
         setTotalMoneyGenerated(response.data.totalMoneyGenerated);
       } catch (error) {
         console.error(error);

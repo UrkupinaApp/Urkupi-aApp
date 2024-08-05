@@ -14,7 +14,7 @@ export const TicketProvider =({children})=>{
     
     
     const getInitialData = async()=>{
-        const response=await axios.get('http://localhost:3002/tickets/getTickets')
+        const response=await axios.get('https://xn--urkupia-9za.store/tickets/getTickets')
         console.log(response.data)
     
         return response.data

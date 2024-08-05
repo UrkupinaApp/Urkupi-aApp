@@ -13,7 +13,7 @@ const TicketCounter = () => {
     const fetchTicketData = async () => {
       try {
         // Hacer la solicitud para obtener datos de la tabla de tickets
-        const response = await axios.get('http://103.195.100.76:3002/tickets/getTickets'); // Ajusta la ruta según tu configuración
+        const response = await axios.get('https://xn--urkupia-9za.store/tickets/getTickets'); // Ajusta la ruta según tu configuración
         const tickets = response.data;
         console.log(tickets)
 

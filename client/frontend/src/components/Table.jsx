@@ -116,7 +116,7 @@ const SetTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://103.195.100.76:3002/tickets/getTickets');
+        const response = await axios.get('https://xn--urkupia-9za.store/tickets/getTickets');
         setData(response.data);
         updateTicketData(response.data)
       } catch (error) {

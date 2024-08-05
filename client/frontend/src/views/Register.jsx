@@ -14,7 +14,7 @@ export const Register = () => {
   const onFinish = async (values) => {
     console.log(values)
     try {
-      const response = await fetch('http://103.195.100.76:3002/auth/register', {
+      const response = await fetch('https://xn--urkupia-9za.store/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

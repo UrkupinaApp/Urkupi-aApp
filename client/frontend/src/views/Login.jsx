@@ -144,7 +144,7 @@ export function Login() {
     setIsLoading(true);
     console.log(values)
     try {
-      const response = await fetch('https://103.195.100.76:3002/auth/login', {
+      const response = await fetch('https://xn--urkupia-9za.store/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

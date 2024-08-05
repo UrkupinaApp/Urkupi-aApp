@@ -14,7 +14,7 @@ const ClientesTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://103.195.100.76:3002/clientes/clientes');
+        const response = await fetch('https://xn--urkupia-9za.store/clientes/clientes');
         if (!response.ok) {
           throw new Error('Error al obtener los datos de clientes');
         }
@@ -56,7 +56,7 @@ const ClientesTable = () => {
         throw new Error('Registro de eliminación no válido');
       }
 
-      await fetch(`http://localhost:3002/clientes/deleteUser?fullname=${encodeURIComponent(deleteRecord.fullname)}&dni=${encodeURIComponent(deleteRecord.dni)}`, {
+      await fetch(`https://xn--urkupia-9za.store/clientes/deleteUser?fullname=${encodeURIComponent(deleteRecord.fullname)}&dni=${encodeURIComponent(deleteRecord.dni)}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const ClientesTable = () => {
         throw new Error('No se permiten cambios en los campos de créditos y DNI');
       }
 
-      await fetch('http://localhost:3002/clientes/updateCliente', {
+      await fetch('https://xn--urkupia-9za.store/clientes/updateCliente', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

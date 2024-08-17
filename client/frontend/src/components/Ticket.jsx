@@ -60,7 +60,7 @@ export const Ticket = () => {
         qr_code: `${userData.caja}${Dia.dia}${Dia.mes}${Dia.año}${counter}`,
         baño: userData.tipoBaño,
         caja: userData.caja,
-        precio: 200,
+        precio: 300,
         carga: "TRUE",
       };
 

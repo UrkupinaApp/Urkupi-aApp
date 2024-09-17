@@ -48,7 +48,7 @@ const login = (req, res) => {
           }
           res.send({"message":user})
           console.log(user)
-          //res.status(200).json({ message: 'Contraseña correcta', status: 200,'userData':userdata });
+          res.status(200).json({ message: 'Contraseña correcta', status: 200,'userData':userdata });
           
         });
       } else {

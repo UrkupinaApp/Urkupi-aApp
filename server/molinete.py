@@ -57,6 +57,3 @@ while True:
     except KeyboardInterrupt:
         print("\nSaliendo del script.")
         break
-
-# No necesitas manejar explícitamente la conexión y el cursor de la base de datos
-# ya que ahora estás usando la API en lugar de MySQL directamente.

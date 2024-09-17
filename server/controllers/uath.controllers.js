@@ -46,7 +46,8 @@ const login = (req, res) => {
             console.log(insertErr)
             return res.status(500).json({ message: 'Error al insertar en sesión de usuario', status: 500 });
           }
-          res.send({"message":userdata})
+          res.send({"message":user})
+          console.log(user)
           //res.status(200).json({ message: 'Contraseña correcta', status: 200,'userData':userdata });
           
         });
@@ -96,4 +97,47 @@ const register=(req,res)=>{
 
 }
 
-module.exports = {login,register}
+
+const changePassword = (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+  let connect = conectarDB();
+
+  // Verificar que el usuario exista en la base de datos
+  connect.query('SELECT * FROM users WHERE user_id = ?', [userId], (err, userdata) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos', status: 500 });
+    }
+
+    if (userdata.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado', status: 404 });
+    }
+
+    const user = userdata[0];
+
+    // Verificar la contraseña actual con bcrypt
+    bcrypt.compare(currentPassword, user.password, (error, isMatch) => {
+      if (error) {
+        return res.status(500).json({ message: 'Error al comparar contraseñas', status: 500 });
+      }
+
+      if (!isMatch) {
+        return res.status(400).json({ message: 'La contraseña actual es incorrecta', status: 400 });
+      }
+
+      // Si la contraseña actual es correcta, hashear la nueva contraseña
+      const newHashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      // Actualizar la contraseña en la base de datos
+      connect.query('UPDATE users SET password = ? WHERE user_id = ?', [newHashedPassword, userId], (updateErr, result) => {
+        if (updateErr) {
+          return res.status(500).json({ message: 'Error al actualizar la contraseña', status: 500 });
+        }
+
+        res.status(200).json({ message: 'Contraseña actualizada correctamente', status: 200 });
+      });
+    });
+  });
+};
+
+
+module.exports = {login,register,changePassword}

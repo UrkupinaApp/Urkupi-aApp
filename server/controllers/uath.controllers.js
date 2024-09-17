@@ -46,7 +46,7 @@ const login = (req, res) => {
             console.log(insertErr)
             return res.status(500).json({ message: 'Error al insertar en sesión de usuario', status: 500 });
           }
-          res.send({"message":user})
+         
           console.log(user)
           res.status(200).json({ message: 'Contraseña correcta', status: 200,'userData':userdata });
           

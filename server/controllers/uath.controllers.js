@@ -19,7 +19,7 @@ const getCurrentDateTime =()=> {
 //funcion que loguea al user e inserta la usersession dentro de la tabla usersession
 
 
-const login = (req, res) => {
+/* const login = (req, res) => {
   const { username, password } = req.body;
   let connect = conectarDB();
 
@@ -57,6 +57,56 @@ const login = (req, res) => {
     });
   });
 };
+
+ */
+
+const login = (req, res) => {
+  const { username, password } = req.body;
+  let connect = conectarDB();
+
+  connect.query('SELECT * FROM users WHERE username=?', [username], (err, userdata) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos', status: 500 });
+    }
+
+    if (userdata.length === 0) {
+      return res.status(400).json({ message: 'El usuario no existe', status: 400 });
+    }
+
+    const user = userdata[0]; // Obtenemos el primer resultado que es el usuario
+
+    // Comparar las contraseñas usando bcrypt
+    bcrypt.compare(password, user.password, (error, isMatch) => {
+      if (error) {
+        return res.status(500).json({ message: 'Error al comparar contraseñas', status: 500 });
+      }
+
+      if (isMatch) {
+        // Si la contraseña es correcta, insertamos una nueva sesión en la tabla usersession
+        connect.query('INSERT INTO usersession (user_id, username, date_login) VALUES (?,?,?)', [user.user_id, username, getCurrentDateTime()], (insertErr, result) => {
+          if (insertErr) {
+            return res.status(500).json({ message: 'Error al insertar en sesión de usuario', status: 500 });
+          }
+
+          // Devolvemos toda la información del usuario cuando el login es exitoso
+          res.status(200).json({
+            message: 'Login exitoso',
+            status: 200,
+            userData: {
+              user_id: user.user_id,
+              username: user.username,
+              rol: user.rol,
+              dateCreated: user.dateCreated
+            }
+          });
+        });
+      } else {
+        res.status(400).json({ message: 'Contraseña incorrecta', status: 400 });
+      }
+    });
+  });
+};
+
 
 
 

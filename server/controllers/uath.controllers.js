@@ -111,7 +111,7 @@ const login = (req, res) => {
 
 
 //Funcion que registra los users
-const register=(req,res)=>{
+/* const register=(req,res)=>{
 
     const fechaActual = getCurrentDateTime();
     const {username,password,rol} = req.body
@@ -145,8 +145,57 @@ const register=(req,res)=>{
 
     
 
-}
+} */
 
+
+  const register = (req, res) => {
+    const loggedInUser = req.user; // Suponiendo que el usuario autenticado está disponible en req.user
+    
+    // Verificar si el usuario logueado es admin
+    if (loggedInUser.rol !== 'admin') {
+      return res.status(403).json({
+        message: 'No tienes permiso para registrar usuarios. Solo los administradores pueden realizar esta acción.'
+      });
+    }
+  
+    const fechaActual = getCurrentDateTime();
+    const { username, password, rol } = req.body;
+    const passHash = bcrypt.hashSync(password, 10);
+  
+    const nuevoUsuario = {
+      username: username,
+      password: passHash,
+      rol: rol,
+      dateCreated: fechaActual
+    };
+  
+    console.log(password);
+  
+    // Consulta SQL para insertar un nuevo usuario
+    const query = 'INSERT INTO users SET ?';
+  
+    let connect = conectarDB();
+  
+    // Ejecutar la consulta SQL
+    connect.query(query, nuevoUsuario, (error, results, fields) => {
+      if (error) {
+        console.error('Error al insertar usuario:', error);
+        return res.status(500).json({
+          message: 'Error al registrar el usuario en la base de datos',
+          error: error
+        });
+      }
+  
+      console.log('Usuario insertado correctamente');
+      res.status(200).json({
+        message: 'Usuario registrado correctamente',
+        status: 200
+      });
+    });
+  
+    // Cerrar la conexión después de realizar las consultas
+    connect.end();
+  };
 
 const changePassword = (req, res) => {
   const { userId, currentPassword, newPassword } = req.body;

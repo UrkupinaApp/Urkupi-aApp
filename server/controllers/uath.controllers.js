@@ -123,7 +123,7 @@ const register=(req,res)=>{
     rol: rol,
     dateCreated: fechaActual
   };
-  
+  console.log(password)
   // Consulta SQL para insertar un nuevo usuario
   const query = 'INSERT INTO users SET ?';
   

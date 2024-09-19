@@ -149,12 +149,10 @@ const login = (req, res) => {
 
 
   const register = (req, res) => {
-    const loggedInUser = req.user; // Suponiendo que el usuario autenticado está disponible en req.user
-    
-    // Verificar si el usuario logueado es admin
-    if (loggedInUser.rol !== 'admin') {
+    // Verificar que req.user está definido por el middleware
+    if (!req.user || req.user.rol !== 'admin') {
       return res.status(403).json({
-        message: 'No tienes permiso para registrar usuarios. Solo los administradores pueden realizar esta acción.'
+        message: 'No tienes permiso para registrar usuarios. Solo los administradores pueden realizar esta acción.',
       });
     }
   
@@ -166,10 +164,8 @@ const login = (req, res) => {
       username: username,
       password: passHash,
       rol: rol,
-      dateCreated: fechaActual
+      dateCreated: fechaActual,
     };
-  
-    console.log(password);
   
     // Consulta SQL para insertar un nuevo usuario
     const query = 'INSERT INTO users SET ?';
@@ -182,21 +178,20 @@ const login = (req, res) => {
         console.error('Error al insertar usuario:', error);
         return res.status(500).json({
           message: 'Error al registrar el usuario en la base de datos',
-          error: error
+          error: error,
         });
       }
   
       console.log('Usuario insertado correctamente');
       res.status(200).json({
         message: 'Usuario registrado correctamente',
-        status: 200
+        status: 200,
       });
     });
   
     // Cerrar la conexión después de realizar las consultas
     connect.end();
   };
-
 const changePassword = (req, res) => {
   const { userId, currentPassword, newPassword } = req.body;
   let connect = conectarDB();

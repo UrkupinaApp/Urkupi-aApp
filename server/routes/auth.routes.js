@@ -1,7 +1,8 @@
 const express = require('express');
 const Authrouter = express.Router();
 
-const {login,register, changePassword} = require('../controllers/uath.controllers.js')
+const {login,register, changePassword} = require('../controllers/uath.controllers.js');
+const authMiddleware = require('../middlewears/authMiddlewear.js');
 
 Authrouter.get("/",(req,res)=>{
     res.send("funciona")
@@ -9,7 +10,7 @@ Authrouter.get("/",(req,res)=>{
 
 Authrouter.post("/login",login)
 
-Authrouter.post("/register",register)
+Authrouter.post("/register",authMiddleware,register)
 Authrouter.post("/update",changePassword)
 
 module.exports = Authrouter

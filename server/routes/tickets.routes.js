@@ -7,6 +7,7 @@ const {PostTicket,GetTickets, DineroGenerado, VerificarYActualizarTicket} =requi
 
 TicketRoutes.get('/getTickets',GetTickets)
 TicketRoutes.post('/postTicket',PostTicket)
+TicketRoutes.post("/ticketcortesia",PostTicket)
 TicketRoutes.get('/calculoDinero',DineroGenerado)
 TicketRoutes.post('/descargar',VerificarYActualizarTicket)
 

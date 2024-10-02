@@ -2,10 +2,11 @@ const express = require('express')
 
 const TicketRoutes = express.Router()
 
-const {PostTicket,GetTickets, DineroGenerado, VerificarYActualizarTicket} =require('../controllers/ticket.controllers.js')
+const {PostTicket,GetTickets, DineroGenerado, VerificarYActualizarTicket, GetTicketsCortesia} =require('../controllers/ticket.controllers.js')
 
 
 TicketRoutes.get('/getTickets',GetTickets)
+TicketRoutes.get("/getticketscortesia",GetTicketsCortesia)
 TicketRoutes.post('/postTicket',PostTicket)
 TicketRoutes.post("/ticketcortesia",PostTicket)
 TicketRoutes.get('/calculoDinero',DineroGenerado)

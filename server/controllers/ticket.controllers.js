@@ -22,6 +22,25 @@ const GetTickets = (req,res)=>{
     })
 }
 
+const GetTicketsCortesia = (req, res) => {
+  let connect = conectarDB();
+
+  // Consulta para obtener todos los registros de la tabla 'ticketscortesia'
+  connect.query('SELECT * FROM ticketscortesia', (err, data) => {
+      if (err) {
+          return res.status(500).json({ message: 'Error al consultar la tabla ticketscortesia', status: 500 });
+      }
+
+      // Enviar los datos obtenidos como respuesta
+      res.status(200).json({
+          message: 'Datos de ticketscortesia obtenidos exitosamente',
+          status: 200,
+          data
+      });
+  });
+};
+
+
 /* const VerificarYActualizarTicket = (req, res) => {
   const { numero_ticket } = req.body;  // Asumiendo que el número de ticket se pasa como 'numero_ticket'
   let connect = conectarDB();
@@ -132,4 +151,4 @@ const DineroGenerado =async(req,res)=>{
 }
 
 
-module.exports ={PostTicket,GetTickets,DineroGenerado,VerificarYActualizarTicket}
+module.exports ={PostTicket,GetTickets,DineroGenerado,VerificarYActualizarTicket,GetTicketsCortesia}

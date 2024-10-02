@@ -17,8 +17,9 @@ const Ajustes = () => {
   if (storedUserData) {
     try {
       const parsedUserData = JSON.parse(storedUserData);
-      console.log('Datos del usuario desde localStorage:', parsedUserData); // Verificar los datos
-      userId = parsedUserData.user_id; // Extraemos el user_id
+ 
+      userId = parsedUserData.data.userData.user_id; // Extraemos el user_id
+      
     } catch (error) {
       console.error('Error al parsear los datos del usuario desde localStorage:', error);
       message.error('Hubo un error al obtener la información del usuario.');

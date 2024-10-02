@@ -57,6 +57,7 @@ const GetTicketsCortesia = (req, res) => {
           status: 200,
           data
       });
+      connect.end(); // Cierra la conexión
   });
 };
 

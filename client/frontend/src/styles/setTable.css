@@ -1,0 +1,35 @@
+.violet-table .ant-table-thead > tr > th {
+    background-color: #617afbc9; /* Violeta oscuro para los encabezados */
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .violet-table .ant-table-tbody > tr > td {
+    background-color:#617bfb33; /* Fondo claro violeta para las celdas */
+    color: #333;
+  }
+  
+  .violet-table .ant-table-pagination.ant-pagination {
+    text-align: center;
+  }
+  
+  .violet-table .ant-table-pagination.ant-pagination .ant-pagination-item-active {
+    border-color: #617afbc9;
+    background-color: #617afbc9;
+  }
+  
+  .violet-table .ant-table-pagination.ant-pagination .ant-pagination-item:hover {
+    border-color: #617afbc9;
+  }
+  
+  .violet-table .ant-btn-primary {
+    background-color: #617afbc9;
+    border-color: #617afbc9;
+  }
+  
+  .violet-table .ant-btn-primary:hover {
+    background-color: #617afbc9;
+    border-color: #617afbc9;
+  }
+  

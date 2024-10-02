@@ -14,6 +14,7 @@ export function AuthContext({ children }) {
 
   const Login = useCallback(function (values) {
     localStorage.setItem(AppAuth, true);
+    console.log(values)
     localStorage.setItem(AppUserData, JSON.stringify(values));
     setAuthenticated(true);
   }, []);

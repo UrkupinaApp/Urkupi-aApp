@@ -26,11 +26,14 @@ export function Login() {
         body: JSON.stringify(values),
       });
 
+      const data = await response.json()
+
       if (response.ok) {
         setIsModalVisible(true);
         setIsLoading(false);
         setTimeout(() => {
-          Login(values);
+          Login({"data":data,"caja":values.caja });
+          
         }, 3000);
       } else {
         setLoginError(true);

@@ -102,7 +102,7 @@ const GetTicketsCortesia = (req, res) => {
 
 
 
-const VerificarYActualizarTicket = (req, res) => {
+/* const VerificarYActualizarTicket = (req, res) => {
     const { numero_ticket } = req.body;
     let connect = conectarDB();
   
@@ -138,7 +138,59 @@ const VerificarYActualizarTicket = (req, res) => {
         connect.end();
       }
     });
-  };
+  }; */
+
+
+
+  const VerificarYActualizarTicket = (req, res) => {
+    const { numero_ticket } = req.body;
+    let connect = conectarDB();
+
+    // Verifica si el ticket comienza con "Cortesia" o una letra mayúscula
+    let tabla = "";
+    if (numero_ticket.startsWith('Cortesia')) {
+        tabla = "ticketscortesia";
+    } else if (/^[A-Z]/.test(numero_ticket)) { // Comprueba si empieza con una letra mayúscula
+        tabla = "tickets";
+    } else {
+        res.status(400).send("Formato de número de ticket no válido.");
+        return;
+    }
+
+    // Consulta la tabla correspondiente
+    connect.query(`SELECT carga FROM ${tabla} WHERE N_ticket = ?`, [numero_ticket], (err, results) => {
+        if (err) {
+            console.error(`Error al buscar el ticket en ${tabla}: ${err}`);
+            res.status(500).send(err);
+            connect.end();
+            return;
+        }
+
+        if (results.length > 0) {
+            const carga = results[0].carga;
+
+            if (carga.toLowerCase() === 'true') { // Asegúrate de comparar correctamente
+                connect.query(`UPDATE ${tabla} SET carga = ? WHERE N_ticket = ?`, ['false', numero_ticket], (err, result) => {
+                    if (err) {
+                        console.error(`Error al actualizar el ticket en ${tabla}: ${err}`);
+                        res.status(500).send(err);
+                    } else {
+                        res.status(200).send("Ticket actualizado y autorizado correctamente.");
+                    }
+                    connect.end();
+                });
+            } else {
+                console.error(`No autorizado: carga es '${carga}'`);
+                res.status(403).send("No autorizado: carga es 'false'.");
+                connect.end();
+            }
+        } else {
+            console.error(`No se encontró un ticket con el número ${numero_ticket} en ${tabla}.`);
+            res.status(404).send(`No se encontró un ticket con el número ${numero_ticket}.`);
+            connect.end();
+        }
+    });
+};
 
   
 const DineroGenerado =async(req,res)=>{

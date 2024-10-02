@@ -22,6 +22,26 @@ const GetTickets = (req,res)=>{
     })
 }
 
+const PostTicketCortesia = (req, res) => {
+  const { N_ticket, dia, hora, qr_code, baño, caja, carga, precio } = req.body;
+  let connect = conectarDB();
+  
+  // Inserción en la tabla ticketscortesia
+  connect.query(
+      'INSERT INTO ticketscortesia (N_ticket, dia, hora, qr_code, baño, caja, carga, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [N_ticket, dia, hora, qr_code, baño, caja, carga, precio],
+      (err, result) => {
+          if (err) {
+              return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });
+          } else {
+              return res.status(200).send({ message: "Ticket de cortesía cargado correctamente" });
+          }
+          connect.end(); // Cierra la conexión
+      }
+  );
+};
+
+
 const GetTicketsCortesia = (req, res) => {
   let connect = conectarDB();
 
@@ -151,4 +171,4 @@ const DineroGenerado =async(req,res)=>{
 }
 
 
-module.exports ={PostTicket,GetTickets,DineroGenerado,VerificarYActualizarTicket,GetTicketsCortesia}
+module.exports ={PostTicket,GetTickets,DineroGenerado,VerificarYActualizarTicket,GetTicketsCortesia,PostTicketCortesia}

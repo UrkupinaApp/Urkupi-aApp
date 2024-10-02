@@ -92,9 +92,9 @@ const login = (req, res) => {
           res.status(200).json({
             message: 'Login exitoso',
             status: 200,
-            userData:userdata
+            userData:user
           });
-          console.log(userdata)
+          console.log(user)
         });
       } else {
         res.status(400).json({ message: 'Contraseña incorrecta', status: 400 });

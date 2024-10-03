@@ -19,6 +19,7 @@ const GetTickets = (req,res)=>{
     connect.query('SELECT * FROM tickets',(e,data)=>{
        
         res.send(data)
+        connect.end()
     })
 }
 
@@ -33,6 +34,7 @@ const PostTicketCortesia = (req, res) => {
       (err, result) => {
           if (err) {
               return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });
+              console.log(err,"error de insert")
           } else {
               return res.status(200).send({ message: "Ticket de cortesía cargado correctamente" });
           }

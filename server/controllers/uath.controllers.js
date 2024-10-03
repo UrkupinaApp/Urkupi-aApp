@@ -107,7 +107,7 @@ const login = (req, res) => {
 
 
 //Funcion que registra los users
-/* const register=(req,res)=>{
+const register=(req,res)=>{
 
     const fechaActual = getCurrentDateTime();
     const {username,password,rol} = req.body
@@ -141,10 +141,10 @@ const login = (req, res) => {
 
     
 
-} */
+}
 
 
-  const register = (req, res) => {
+/*   const register = (req, res) => {
     // Verificar que req.user está definido por el middleware
     if (!req.user || req.user.rol !== 'admin') {
       return res.status(403).json({
@@ -188,6 +188,9 @@ const login = (req, res) => {
     // Cerrar la conexión después de realizar las consultas
     connect.end();
   };
+ */
+
+
 const changePassword = (req, res) => {
   const { userId, currentPassword, newPassword } = req.body;
   let connect = conectarDB();

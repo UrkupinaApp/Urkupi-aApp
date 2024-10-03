@@ -10,7 +10,7 @@ Authrouter.get("/",(req,res)=>{
 
 Authrouter.post("/login",login)
 
-Authrouter.post("/register",authMiddleware,register)
+Authrouter.post("/register",register)
 Authrouter.post("/update",changePassword)
 
 module.exports = Authrouter

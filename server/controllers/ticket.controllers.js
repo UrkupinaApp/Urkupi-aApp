@@ -105,7 +105,7 @@ const GetTicketsCortesia = (req, res) => {
 
 
 
-const VerificarYActualizarTicket = (req, res) => {
+/* const VerificarYActualizarTicket = (req, res) => {
     const { numero_ticket } = req.body;
     let connect = conectarDB();
   
@@ -143,9 +143,9 @@ const VerificarYActualizarTicket = (req, res) => {
     });
   };
 
+ */
 
-
-  /* const VerificarYActualizarTicket = (req, res) => {
+  const VerificarYActualizarTicket = (req, res) => {
     const { numero_ticket } = req.body;
     let connect = conectarDB();
 
@@ -193,7 +193,7 @@ const VerificarYActualizarTicket = (req, res) => {
             connect.end();
         }
     });
-}; */
+};
 
   
 const DineroGenerado =async(req,res)=>{

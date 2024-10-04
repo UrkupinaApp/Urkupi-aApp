@@ -148,6 +148,7 @@ const GetTicketsCortesia = (req, res) => {
   const VerificarYActualizarTicket = (req, res) => {
     const { numero_ticket } = req.body;
     let connect = conectarDB();
+    console.log(numero_ticket)
 
     // Verifica si el ticket comienza con "Cortesia" o una letra mayúscula
     let tabla = "";
@@ -159,7 +160,7 @@ const GetTicketsCortesia = (req, res) => {
         res.status(400).send("Formato de número de ticket no válido.");
         return;
     }
-
+        console.log(tabla)
     // Consulta la tabla correspondiente
     connect.query(`SELECT carga FROM ${tabla} WHERE N_ticket = ?`, [numero_ticket], (err, results) => {
         if (err) {

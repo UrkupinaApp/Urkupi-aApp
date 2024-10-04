@@ -74,6 +74,7 @@ export const Ticket = () => {
 
       if (response.ok) {
         setIsModalVisible(true);
+        console.log(N_ticket)
         setTimeout(() => {
           setIsModalVisible(false);
         }, 3000);

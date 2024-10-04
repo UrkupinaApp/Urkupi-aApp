@@ -4,16 +4,16 @@ import { PrinterOutlined } from '@ant-design/icons';
 import { Button, Modal, Spin } from 'antd';
 import Qr from '../components/Qr';
 import { useReactToPrint } from 'react-to-print';
-import { useAuthContext } from '../context/AuthContext';
 import { useTicketContext } from '../context/TicketContext';
 import Clock from './Clock';
 
 export const TicketCortesia = () => {
   const AppUserData = "AppUserData";
   const userData = JSON.parse(localStorage.getItem(AppUserData));
-  console.log("userDAta del ticket",userData)
-  const { counter, incrementCounter } = useAuthContext();
-  const { updateTicketData } = useTicketContext();
+  console.log("userDAta del ticket", userData);
+
+  // Usar el contexto del ticket para manejar el contador de cortesías
+  const { cortesiaCounter, incrementCortesiaCounter, updateTicketData } = useTicketContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -42,7 +42,7 @@ export const TicketCortesia = () => {
 
   const handlePrint = useReactToPrint({
     content: () => {
-      incrementCounter();
+      incrementCortesiaCounter(); // Incrementar el contador de cortesías
       updateTicketData([]); // Actualiza el contexto con una lista vacía, puedes ajustarlo según tu lógica
       return componentRef.current;
     },
@@ -53,12 +53,15 @@ export const TicketCortesia = () => {
 
   const sendPrintedTicket = async () => {
     setIsLoading(true);
+
     try {
       const ticketData = {
-        N_ticket: `Cortesia${Dia.dia}${Dia.mes}${Dia.año}${counter}`, // Genera el número de ticket
+        // Usar el formato del número de ticket
+        N_ticket: `Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`, 
         id_cliente: userData.user_id, // id del cliente
         dia: `${Dia.año}-${Dia.mes}-${Dia.dia}`, // Formato de fecha YYYY-MM-DD
-        qr_code: `${userData.caja}${Dia.dia}${Dia.mes}${Dia.año}${counter}`,
+        // Formato del código QR
+        qr_code: `${userData.caja}-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`,
         id_molinete: userData.id_molinete || 1, // Puedes ajustarlo según tu lógica
         precio: 0,
         id_caja: userData.caja,
@@ -109,7 +112,7 @@ export const TicketCortesia = () => {
           <div style={{ display: 'flex', width: '150px', height: '60px', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
               <p style={{ marginRight: '9px', fontSize: '18px', fontWeight: '600', width: '50%', height: '100%' }}>Hora:</p>
-              <div>{<Clock/>}</div>
+              <div>{<Clock />}</div>
             </div>
           </div>
         </div>
@@ -120,9 +123,9 @@ export const TicketCortesia = () => {
         </div>
         <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', flexDirection: "column", alignItems: 'center' }}>
           <div style={{ padding: '10px', margin: '5px 5px 5px' }}>
-            <h2 style={{ fontSize: "14px" }}>Ticket Nº {`Cortesia`}{`${Dia.dia}${Dia.mes}${Dia.año}${counter}`}</h2>
+            <h2 style={{ fontSize: "14px" }}>Ticket Nº {`Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`}</h2>
           </div>
-          <Qr textoQr={`Cortesia${Dia.dia}${Dia.mes}${Dia.año}${counter}`} />
+          <Qr textoQr={`Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`} />
         </div>
         <div>
           <h3>Valido por 1 uso Baño </h3>

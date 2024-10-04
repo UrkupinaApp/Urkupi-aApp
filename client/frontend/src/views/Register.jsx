@@ -25,7 +25,7 @@ export const Register = () => {
       if (response.ok) {
         abrirModal();
       } else {
-        console.error('Algo salió mal');
+        console.error('Algo salió mal',response);
       }
     } catch (error) {
       console.error('Error:', error);

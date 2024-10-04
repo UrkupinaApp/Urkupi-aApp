@@ -164,6 +164,7 @@ const GetTicketsCortesia = (req, res) => {
     connect.query(`SELECT carga FROM ${tabla} WHERE N_ticket = ?`, [numero_ticket], (err, results) => {
         if (err) {
             console.error(`Error al buscar el ticket en ${tabla}: ${err}`);
+            console.log(err)
             res.status(500).send(err);
             connect.end();
             return;

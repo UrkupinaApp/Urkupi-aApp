@@ -61,7 +61,7 @@ export const TicketCortesia = () => {
         id_cliente: userData.user_id, // id del cliente
         dia: `${Dia.año}-${Dia.mes}-${Dia.dia}`, // Formato de fecha YYYY-MM-DD
         // Formato del código QR
-        qr_code: `${userData.caja}-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`,
+        qr_code: `Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`,
         id_molinete: userData.id_molinete || 1, // Puedes ajustarlo según tu lógica
         precio: 0,
         id_caja: userData.caja,

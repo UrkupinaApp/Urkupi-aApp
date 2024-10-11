@@ -9,6 +9,7 @@ import { Dashboard } from "../components/Dashboard"
 import { Tickets } from "../components/Tickets"
 import { Clientes } from "../components/Clientes"
 import { Settings } from "../components/Settings"
+import { Analithycs } from "../components/Analithycs"
 
 
 
@@ -29,6 +30,7 @@ export const Router = () => {
         {/* <Route index path="/private" element={<Private/>}/> */}
         <Route path="/private/dashboard" element={<Dashboard/>}/>
         <Route path="/private/tickets" element={<Tickets/>}/>
+        <Route path="/private/analytics" element={<Analithycs/>} />
         <Route path="/private/clientes" element={<Clientes/>}/>
         <Route path="/private/settings" element={<Settings/>}/>
       </Route>

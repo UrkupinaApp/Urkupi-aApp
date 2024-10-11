@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 
 const TicketsCortesiaTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = React.useRef(null);
+  const searchInput = useRef(null);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado de error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Obtener los datos de tickets de cortesia al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Realiza la petición GET a /getticketscortesia
         const response = await axios.get('https://xn--urkupia-9za.store/tickets/getticketscortesia');
-        console.log('Datos recibidos:', response.data); // Verificar los datos recibidos
+        console.log('Datos recibidos:', response.data);
 
-        // Accede a response.data.data ya que los datos están anidados
         if (Array.isArray(response.data.data)) {
-          setData(response.data.data); // Almacena los datos en el estado
+          setData(response.data.data);
+          setCurrentPage(Math.ceil(response.data.data.length / 5)); // Configura la página para que sea la última
         } else {
-          throw new Error('Estructura de datos no válida'); // Arrojar error si no es un array
+          throw new Error('Estructura de datos no válida');
         }
       } catch (error) {
         console.error('Error al obtener los tickets de cortesia:', error);
-        setError('Error al cargar los datos'); // Establecer el mensaje de error
+        setError('Error al cargar los datos');
       } finally {
-        setLoading(false); // Desactivar el estado de carga
+        setLoading(false);
       }
     };
 
@@ -80,11 +80,17 @@ const TicketsCortesiaTable = () => {
     setSearchText('');
   };
 
-  const onChange = (pagination, filters, sorter) => {
-    console.log('Filtrado, clasificación:', filters, sorter);
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'TicketsCortesia');
+    XLSX.writeFile(workbook, 'tickets_cortesia.xlsx');
   };
 
-  // Definición de las columnas de la tabla
+  const onChange = (pagination) => {
+    setCurrentPage(pagination.current);
+  };
+
   const columns = [
     { title: 'Nº Ticket', dataIndex: 'N_ticket', key: 'N_ticket', ...getColumnSearchProps('N_ticket') },
     { title: 'Día', dataIndex: 'dia', key: 'dia', ...getColumnSearchProps('dia') },
@@ -95,21 +101,30 @@ const TicketsCortesiaTable = () => {
   ];
 
   if (loading) {
-    return <p>Cargando datos...</p>; // Mostrar mensaje de carga
+    return <p>Cargando datos...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>; // Mostrar mensaje de error
+    return <p>{error}</p>;
   }
 
   return (
-    <Table
-      dataSource={data}
-      columns={columns}
-      onChange={onChange}
-      pagination={{ pageSize: 5 }}
-      rowKey="N_ticket" // Asegura que cada fila tenga una key única
-    />
+    <div>
+      <Button onClick={exportToExcel} style={{ marginBottom: '10px' }}>
+        Exportar a Excel
+      </Button>
+      <Table
+        dataSource={data}
+        columns={columns}
+        onChange={onChange}
+        pagination={{
+          pageSize: 5,
+          current: currentPage,
+          onChange: (page) => setCurrentPage(page),
+        }}
+        rowKey="N_ticket"
+      />
+    </div>
   );
 };
 

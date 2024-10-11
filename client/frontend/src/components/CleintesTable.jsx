@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
 
 const ClientesTable = () => {
   const [clientes, setClientes] = useState([]);
@@ -9,6 +9,7 @@ const ClientesTable = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteRecord, setDeleteRecord] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const ClientesTable = () => {
 
         const data = await response.json();
         setClientes(data);
+        setCurrentPage(Math.ceil(data.length / 3)); // Configura la página para que sea la última
       } catch (error) {
         console.error(error);
       }
@@ -122,6 +124,13 @@ const ClientesTable = () => {
     form.resetFields();
   };
 
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(clientes);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Clientes');
+    XLSX.writeFile(workbook, 'clientes.xlsx');
+  };
+
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
     { title: 'Nombre Completo', dataIndex: 'fullname', key: 'fullname' },
@@ -156,7 +165,18 @@ const ClientesTable = () => {
   return (
     <div>
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Clientes Almacenados en Base de datos:</h2>
-      <Table dataSource={clientes} columns={columns} pagination={{ pageSize: 3 }} />
+      <Button onClick={exportToExcel} style={{ marginBottom: '10px' }}>
+        Exportar a Excel
+      </Button>
+      <Table
+        dataSource={clientes}
+        columns={columns}
+        pagination={{
+          pageSize: 3,
+          current: currentPage,
+          onChange: (page) => setCurrentPage(page),
+        }}
+      />
 
       <Modal
         title="Editar Cliente"

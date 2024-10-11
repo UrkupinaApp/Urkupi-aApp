@@ -99,26 +99,25 @@ const SetTable = () => {
 export default SetTable;
 
  */
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
-const { Search } = Input;
+import * as XLSX from 'xlsx';
 
 const SetTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = React.useRef(null);
+  const searchInput = useRef(null);
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://xn--urkupia-9za.store/tickets/getTickets');
         setData(response.data);
-        updateTicketData(response.data)
+        setCurrentPage(Math.ceil(response.data.length / 5)); // Configura la página para que sea la última
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
@@ -176,8 +175,15 @@ const SetTable = () => {
     setSearchText('');
   };
 
-  const onChange = (pagination, filters, sorter) => {
-    console.log('Filtrado, clasificación:', filters, sorter);
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Tickets');
+    XLSX.writeFile(workbook, 'tickets.xlsx');
+  };
+
+  const onChange = (pagination) => {
+    setCurrentPage(pagination.current);
   };
 
   const columns = [
@@ -189,7 +195,23 @@ const SetTable = () => {
     { title: 'Precio', dataIndex: 'precio', key: 'precio', ...getColumnSearchProps('precio') },
   ];
 
-  return <Table dataSource={data} columns={columns} onChange={onChange} pagination={{ pageSize: 5 }} />;
+  return (
+    <div>
+      <Button onClick={exportToExcel} style={{ marginBottom: '10px' }}>
+        Exportar a Excel
+      </Button>
+      <Table
+        dataSource={data}
+        columns={columns}
+        onChange={onChange}
+        pagination={{
+          pageSize: 5,
+          current: currentPage,
+          onChange: (page) => setCurrentPage(page),
+        }}
+      />
+    </div>
+  );
 };
 
 export default SetTable;

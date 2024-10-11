@@ -11,6 +11,7 @@ import {Row, Col} from 'antd'
 
 import { Ticket } from './Ticket'
 import { TicketCortesia } from './TicketCortesia'
+import { TicketCortesiaMultiple } from './CortesiaMultiple'
 
 
 export const Tickets = () => {
@@ -37,11 +38,11 @@ export const Tickets = () => {
           <Col span={12} style={{textAlign:"center"}}>
             
         <TicketCortesia></TicketCortesia>
+            <TicketCortesiaMultiple/>
 
           </Col>
           <Col span={12} style={{background:"transparent"}}>
             <Ticket style={{background:"transparent",width:"300PX"}} />
-           
           </Col>
         </Row>
       </div>

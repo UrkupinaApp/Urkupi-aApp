@@ -19,6 +19,7 @@ const Ajustes = () => {
       const parsedUserData = JSON.parse(storedUserData);
  
       userId = parsedUserData.data.userData.user_id; // Extraemos el user_id
+      console.log(userId)
       
     } catch (error) {
       console.error('Error al parsear los datos del usuario desde localStorage:', error);

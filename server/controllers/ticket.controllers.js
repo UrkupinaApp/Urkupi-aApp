@@ -24,7 +24,7 @@ const GetTickets = (req,res)=>{
 }
 
 const PostTicketCortesia = (req, res) => {
-    const { N_ticket, dia, hora, qr_code, baño, caja, precio } = req.body;
+    const { N_ticket, dia, hora, qr_code, baño, caja, precio, carga } = req.body;
 
     // Validación de los datos de entrada
     if (!N_ticket || !dia || !hora || !qr_code || !baño || !caja || precio === undefined) {
@@ -40,8 +40,8 @@ const PostTicketCortesia = (req, res) => {
         return res.status(500).send({ message: "Error al conectar a la base de datos.", error: connectionError });
     }
 
-    // Definir el valor de 'carga' como true (booleano) o 'true' (cadena), según el tipo de dato en la base de datos
-    const cargaValor = true; // Cambia a 'true' (cadena) si 'carga' es VARCHAR en la base de datos
+    // Definir el valor de 'carga' como true por defecto si no se proporciona en la solicitud
+    const cargaValor = carga !== undefined ? carga : true;
 
     // Inserción en la tabla ticketscortesia
     const insertQuery = `

@@ -43,6 +43,8 @@ const PostTicketCortesia = (req, res) => {
     // Definir el valor de 'carga' como true por defecto si no se proporciona en la solicitud
     const cargaValor = carga !== undefined ? carga : true;
 
+    console.log(`Insertando ticket con N_ticket: ${N_ticket}, carga: ${cargaValor}`);
+
     // Inserción en la tabla ticketscortesia
     const insertQuery = `
         INSERT INTO ticketscortesia 
@@ -69,7 +71,6 @@ const PostTicketCortesia = (req, res) => {
         }
     );
 };
-
 
 const GetTicketsCortesia = (req, res) => {
   let connect = conectarDB();
@@ -253,7 +254,7 @@ const VerificarYActualizarTicket = (req, res) => {
         return;
     }
     
-    console.log(`Número de ticket reformateado: ${numero_ticket}`);
+    console.log(`Número de ticket reformateado para buscar: ${numero_ticket}`);
     
     let connect;
     try {
@@ -333,17 +334,7 @@ const VerificarYActualizarTicket = (req, res) => {
                     connect.end();
                 }
             } else {
-                console.error(`El campo 'carga' es null o undefined para el ticket ${numero_ticket} en la tabla ${tabla}.`);
-                res.status(500).send("Datos incompletos: 'carga' no está definido.");
-                connect.end();
-            }
-        } else {
-            console.warn(`No se encontró un ticket con el número ${numero_ticket} en ${tabla}.`);
-            res.status(404).send(`No se encontró un ticket con el número ${numero_ticket}.`);
-            connect.end();
-        }
-    });
-};
+                console.error(`El campo 'carga' es null o undefined pa
 
 const DineroGenerado =async(req,res)=>{
 

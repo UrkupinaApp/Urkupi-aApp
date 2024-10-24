@@ -24,13 +24,13 @@ const GetTickets = (req,res)=>{
 }
 
 const PostTicketCortesia = (req, res) => {
-  const { N_ticket, dia, hora, qr_code, baño, caja, carga, precio } = req.body;
+  const { N_ticket, dia, hora, qr_code, baño, caja, precio } = req.body;
   let connect = conectarDB();
   
   // Inserción en la tabla ticketscortesia
   connect.query(
       'INSERT INTO ticketscortesia (N_ticket, dia, hora, qr_code, baño, caja, carga, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [N_ticket, dia, hora, qr_code, baño, caja, carga, precio],
+      [N_ticket, dia, hora, qr_code, baño, caja, TRUE, precio],
       (err, result) => {
           if (err) {
               return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });

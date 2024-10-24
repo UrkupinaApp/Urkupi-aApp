@@ -334,7 +334,17 @@ const VerificarYActualizarTicket = (req, res) => {
                     connect.end();
                 }
             } else {
-                console.error(`El campo 'carga' es null o undefined pa
+                console.error(`El campo 'carga' es null o undefined para el ticket ${numero_ticket} en la tabla ${tabla}.`);
+                res.status(500).send("Datos incompletos: 'carga' no está definido.");
+                connect.end();
+            }
+        } else {
+            console.warn(`No se encontró un ticket con el número ${numero_ticket} en ${tabla}.`);
+            res.status(404).send(`No se encontró un ticket con el número ${numero_ticket}.`);
+            connect.end();
+        }
+    });
+};
 
 const DineroGenerado =async(req,res)=>{
 

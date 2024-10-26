@@ -114,6 +114,9 @@ const PostTicketCortesia = (req, res) => {
         (err, result) => {
             if (err) {
                 console.error('Error al insertar el ticket de cortesía:', err);
+                console.log(err)
+
+
                 connect.end(); // Cierra la conexión antes de retornar
                 return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });
             } else {

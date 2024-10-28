@@ -278,7 +278,7 @@ const VerificarYActualizarTicket = (req, res) => {
             const carga = results[0].carga;
             console.log(carga)
 
-            if (carga === true) {
+            if (carga === "TRUE") {
                 console.log(`Acceso permitido para el ticket ${numero_ticket}`);
                 connect.end();
                 return res.status(200).send("Ticket autorizado correctamente.");

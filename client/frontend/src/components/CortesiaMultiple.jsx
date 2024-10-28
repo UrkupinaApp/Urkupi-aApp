@@ -10,7 +10,7 @@ import svgLogo from '../assets/logo_64.svg'; // Ruta del SVG cargado
 export const TicketCortesiaMultiple = () => {
   const AppUserData = "AppUserData";
   const userData = JSON.parse(localStorage.getItem(AppUserData));
-  const { cortesiaCounter, incrementCortesiaCounter } = useTicketContext();
+  const { incrementCortesiaCounter } = useTicketContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -19,11 +19,19 @@ export const TicketCortesiaMultiple = () => {
     const dia = fechaActual.getDate();
     const mes = fechaActual.getMonth() + 1;
     const año = fechaActual.getFullYear();
-    const hora = fechaActual.toLocaleTimeString();
-    return { dia, mes, año, hora };
+    const hora = fechaActual.getHours();
+    const minutos = fechaActual.getMinutes();
+    const segundos = fechaActual.getSeconds();
+    return { dia, mes, año, hora, minutos, segundos };
   };
 
   const Dia = obtenerFechaHoraActual();
+
+  // Función para generar un número de ticket único y corto
+  const generarNumeroTicket = () => {
+    const randomNum = Math.floor(Math.random() * 1000000) + 1;
+    return `COR${Dia.año}${Dia.mes}${Dia.dia}${Dia.hora}${Dia.minutos}${Dia.segundos}${randomNum}`;
+  };
 
   const renderSvgToCanvas = async (svgPath) => {
     const response = await fetch(svgPath);
@@ -47,7 +55,7 @@ export const TicketCortesiaMultiple = () => {
     const logoData = await renderSvgToCanvas(svgLogo);
 
     for (let i = 0; i < 20; i++) {
-      const ticketNumber = `Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter + i}`;
+      const ticketNumber = generarNumeroTicket(); // Generar número de ticket único
       const qrCodeData = await QRCode.toDataURL(ticketNumber);
 
       // Establecer márgenes y dimensiones del ticket
@@ -70,7 +78,7 @@ export const TicketCortesiaMultiple = () => {
       // Añadir la fecha y la hora en la siguiente línea
       doc.setFontSize(12);
       doc.text(`Dia: ${Dia.dia}/${Dia.mes}/${Dia.año}`, marginLeft + 10, marginTop + 80);
-      doc.text(`Hora: ${Dia.hora}`, marginLeft + ticketWidth - 50, marginTop + 80);
+      doc.text(`Hora: ${Dia.hora}:${Dia.minutos}:${Dia.segundos}`, marginLeft + ticketWidth - 50, marginTop + 80);
 
       // Línea separadora
       doc.line(marginLeft + 10, marginTop + 85, marginLeft + ticketWidth - 10, marginTop + 85);
@@ -97,16 +105,11 @@ export const TicketCortesiaMultiple = () => {
         doc.addPage(); // Añadir nueva página si no es la última
       }
 
-      await sendPrintedTicket(ticketNumber);
+      await sendPrintedTicket(ticketNumber); // Enviar el ticket con el número generado
     }
 
     doc.save('tickets_cortesia.pdf');
     setIsLoading(false);
-
-    // Incrementar el contador en 20 una vez finalizado
-    for (let i = 0; i < 20; i++) {
-      incrementCortesiaCounter();
-    }
   };
 
   const sendPrintedTicket = async (ticketNumber) => {

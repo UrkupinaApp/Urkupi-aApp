@@ -12,8 +12,7 @@ export const TicketCortesia = () => {
   const userData = JSON.parse(localStorage.getItem(AppUserData));
   console.log("userDAta del ticket", userData);
 
-  // Usar el contexto del ticket para manejar el contador de cortesías
-  const { cortesiaCounter, incrementCortesiaCounter, updateTicketData } = useTicketContext();
+  const { updateTicketData } = useTicketContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,32 +39,36 @@ export const TicketCortesia = () => {
   const Dia = obtenerFechaHoraActual();
   const componentRef = useRef();
 
+  // Función para generar un número de ticket único y corto
+  const generarNumeroTicket = () => {
+    const randomNum = Math.floor(Math.random() * 1000000) + 1;
+    return `COR${Dia.año}${Dia.mes}${Dia.dia}${Dia.hora}${Dia.minutos}${Dia.segundos}${randomNum}`;
+  };
+
+  const numeroTicket = generarNumeroTicket();
+
   const handlePrint = useReactToPrint({
     content: () => {
-      incrementCortesiaCounter(); // Incrementar el contador de cortesías
-      updateTicketData([]); // Actualiza el contexto con una lista vacía, puedes ajustarlo según tu lógica
       return componentRef.current;
     },
     onAfterPrint: () => {
-      sendPrintedTicket();
+      sendPrintedTicket(numeroTicket); // Enviar el ticket con el número único generado
     },
   });
 
-  const sendPrintedTicket = async () => {
+  const sendPrintedTicket = async (ticketNumber) => {
     setIsLoading(true);
 
     try {
       const ticketData = {
-        // Usar el formato del número de ticket
-        N_ticket: `Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`, 
-        id_cliente: userData.user_id, // id del cliente
-        dia: `${Dia.año}-${Dia.mes}-${Dia.dia}`, // Formato de fecha YYYY-MM-DD
-        // Formato del código QR
-        qr_code: `Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`,
-        id_molinete: userData.id_molinete || 1, // Puedes ajustarlo según tu lógica
+        N_ticket: ticketNumber, 
+        id_cliente: userData.user_id, 
+        dia: `${Dia.año}-${Dia.mes}-${Dia.dia}`, 
+        qr_code: ticketNumber, // Usamos el mismo número único para el QR
+        id_molinete: userData.id_molinete || 1, 
         precio: 0,
         id_caja: userData.caja,
-        user_id: userData.user_id, // ID del usuario
+        user_id: userData.user_id, 
       };
 
       const response = await fetch('https://xn--urkupia-9za.store/tickets/ticketcortesia', {
@@ -78,6 +81,7 @@ export const TicketCortesia = () => {
 
       if (response.ok) {
         setIsModalVisible(true);
+        console.log(response)
         setTimeout(() => {
           setIsModalVisible(false);
         }, 3000);
@@ -123,9 +127,9 @@ export const TicketCortesia = () => {
         </div>
         <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', flexDirection: "column", alignItems: 'center' }}>
           <div style={{ padding: '10px', margin: '5px 5px 5px' }}>
-            <h2 style={{ fontSize: "14px" }}>Ticket Nº {`Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`}</h2>
+            <h2 style={{ fontSize: "14px" }}>Ticket Nº {numeroTicket}</h2>
           </div>
-          <Qr textoQr={`Cortesia-${Dia.año}-${Dia.mes}-${Dia.dia}-${cortesiaCounter}`} />
+          <Qr textoQr={numeroTicket} />
         </div>
         <div>
           <h3>Valido por 1 uso Baño </h3>

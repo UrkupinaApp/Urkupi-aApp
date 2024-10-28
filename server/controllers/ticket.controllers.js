@@ -273,7 +273,7 @@ const VerificarYActualizarTicket = (req, res) => {
             connect.end();
             return res.status(500).send("Error al buscar el ticket en la base de datos.");
         }
-
+        console.log(results)
         if (results.length > 0) {
             const carga = results[0].carga;
 

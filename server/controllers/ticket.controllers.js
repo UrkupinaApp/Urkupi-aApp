@@ -238,24 +238,16 @@ const GetTicketsCortesia = (req, res) => {
 */
 
 
-
-const reformatearNumeroTicket = (numero_ticket) => {
-    return /['"]/g.test(numero_ticket) ? numero_ticket.replace(/'/g, '-') : numero_ticket;
-};
-
 const VerificarYActualizarTicket = (req, res) => {
     let { numero_ticket } = req.body;
 
     // Log inicial para verificar la entrada
     console.log(`Solicitud recibida para verificar y actualizar el ticket: ${numero_ticket}`);
 
-    // Verificar y reformatear el número de ticket si es necesario
-    numero_ticket = reformatearNumeroTicket(numero_ticket);
-
-    // Validar el número de ticket después de reformatear
+    // Validar el número de ticket
     if (!numero_ticket || typeof numero_ticket !== 'string') {
-        console.error(`Número de ticket inválido después de reformatear: ${numero_ticket}`);
-        return res.status(400).send("Número de ticket inválido después de reformatear.");
+        console.error(`Número de ticket inválido: ${numero_ticket}`);
+        return res.status(400).send("Número de ticket inválido.");
     }
 
     let connect;
@@ -267,14 +259,7 @@ const VerificarYActualizarTicket = (req, res) => {
     }
 
     // Determinar la tabla a consultar
-    const tabla = numero_ticket.startsWith('Cortesia') ? "ticketscortesia" :
-                  /^[A-Z]/.test(numero_ticket) ? "tickets" : null;
-
-    if (!tabla) {
-        console.error(`Formato de número de ticket no válido: ${numero_ticket}`);
-        connect.end();
-        return res.status(400).send("Formato de número de ticket no válido.");
-    }
+    const tabla = numero_ticket.startsWith('COR') ? "ticketscortesia" : "tickets";
 
     console.log(`Tabla seleccionada: ${tabla}`);
 
@@ -329,6 +314,8 @@ const VerificarYActualizarTicket = (req, res) => {
         }
     });
 };
+
+
 
 const DineroGenerado =async(req,res)=>{
 

@@ -59,6 +59,7 @@ const PostTicketCortesia = (req, res) => {
         (err, result) => {
             if (err) {
                 console.error('Error al insertar el ticket de cortesía:', err);
+                console.log(err,"no se inserto")
                 // Cierra la conexión antes de retornar
                 connect.end();
                 return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });
@@ -67,6 +68,7 @@ const PostTicketCortesia = (req, res) => {
                 // Cierra la conexión antes de retornar
                 connect.end();
                 return res.status(200).send({ message: "Ticket de cortesía cargado correctamente" });
+                console.log("se inserto correctamente el ticket cortesia...")
             }
         }
     );

@@ -278,32 +278,11 @@ const VerificarYActualizarTicket = (req, res) => {
             const carga = results[0].carga;
 
             if (carga === true) {
-                // Obtener la fecha y hora actual para la descarga
-                const fechaActual = new Date();
-                const horaDescarga = fechaActual.toTimeString().split(' ')[0]; // Formato HH:MM:SS
-                const dateDescarga = fechaActual.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-
-                console.log(`Actualizando el ticket con carga='false', hora_descarga='${horaDescarga}', date_descarga='${dateDescarga}'`);
-
-                // Actualizar el ticket
-                const queryUpdate = `UPDATE ${tabla} SET carga = ?, hora_descarga = ?, date_descarga = ? WHERE N_ticket = ?`;
-                connect.query(
-                    queryUpdate, 
-                    ['false', horaDescarga, dateDescarga, numero_ticket], 
-                    (err, result) => {
-                        if (err) {
-                            console.error(`Error al actualizar el ticket en ${tabla}: ${err}`);
-                            connect.end();
-                            return res.status(500).send("Error al actualizar el ticket en la base de datos.");
-                        } else {
-                            console.log(`Ticket actualizado correctamente para el número de ticket: ${numero_ticket}`);
-                            connect.end();
-                            return res.status(200).send("Ticket actualizado y autorizado correctamente.");
-                        }
-                    }
-                );
+                console.log(`Acceso permitido para el ticket ${numero_ticket}`);
+                connect.end();
+                return res.status(200).send("Ticket autorizado correctamente.");
             } else {
-                console.warn(`No autorizado: carga es '${carga}' para el ticket ${numero_ticket}.`);
+                console.warn(`Acceso denegado: carga es 'false' para el ticket ${numero_ticket}.`);
                 connect.end();
                 return res.status(403).send("No autorizado: carga no está en estado 'true'.");
             }

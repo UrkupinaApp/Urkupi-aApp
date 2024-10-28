@@ -273,15 +273,25 @@ const VerificarYActualizarTicket = (req, res) => {
             connect.end();
             return res.status(500).send("Error al buscar el ticket en la base de datos.");
         }
-        console.log(results)
-        if (results.length > 0) {
-            const carga = results[0].carga;
-            console.log(carga)
 
-            if (carga === "TRUE") {
-                console.log(`Acceso permitido para el ticket ${numero_ticket}`);
-                connect.end();
-                return res.status(200).send("Ticket autorizado correctamente.");
+        if (results.length > 0) {
+            // Convertir el valor de carga a booleano
+            const carga = results[0].carga === 'true';
+
+            if (carga) {
+                // Actualizar el valor de carga a 'false' en la base de datos
+                const queryUpdate = `UPDATE ${tabla} SET carga = 'false' WHERE N_ticket = ?`;
+                connect.query(queryUpdate, [numero_ticket], (err, result) => {
+                    if (err) {
+                        console.error(`Error al actualizar el ticket en ${tabla}: ${err}`);
+                        connect.end();
+                        return res.status(500).send("Error al actualizar el ticket en la base de datos.");
+                    } else {
+                        console.log(`Ticket autorizado y actualizado correctamente para el número de ticket: ${numero_ticket}`);
+                        connect.end();
+                        return res.status(200).send("Ticket autorizado correctamente.");
+                    }
+                });
             } else {
                 console.warn(`Acceso denegado: carga es 'false' para el ticket ${numero_ticket}.`);
                 connect.end();

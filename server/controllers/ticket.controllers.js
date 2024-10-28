@@ -23,7 +23,7 @@ const GetTickets = (req,res)=>{
     })
 }
 
-/* const PostTicketCortesia = (req, res) => {
+const PostTicketCortesia = (req, res) => {
     const { N_ticket, dia, hora, qr_code, baño, caja, precio, carga } = req.body;
 
     // Validación de los datos de entrada
@@ -71,62 +71,10 @@ const GetTickets = (req,res)=>{
         }
     );
 };
- */
+ 
 
 
 
-const PostTicketCortesia = (req, res) => {
-    const { N_ticket, dia, hora = null, qr_code, baño = null, caja, precio, carga } = req.body;
-
-    // Log inicial para revisar el contenido de req.body
-    console.log('Datos de solicitud recibidos:', req.body);
-
-    // Validación de los datos de entrada
-    if (!N_ticket || !dia || !qr_code || !caja || precio === undefined) {
-        console.error('Faltan campos en la solicitud:', req.body);
-        return res.status(400).send({ message: "Faltan campos requeridos en la solicitud." });
-    }
-
-    let connect;
-    try {
-        connect = conectarDB();
-    } catch (connectionError) {
-        console.error('Error al conectar a la base de datos:', connectionError);
-        return res.status(500).send({ message: "Error al conectar a la base de datos.", error: connectionError });
-    }
-
-    // Definir el valor de 'carga' como true por defecto si no se proporciona en la solicitud
-    const cargaValor = carga !== undefined ? carga : true;
-
-    console.log(`Insertando ticket con N_ticket: ${N_ticket}, carga: ${cargaValor}`);
-
-    // Inserción en la tabla ticketscortesia
-    const insertQuery = `
-        INSERT INTO ticketscortesia 
-            (N_ticket, dia, hora, qr_code, baño, caja, carga, precio) 
-        VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    connect.query(
-        insertQuery,
-        [N_ticket, dia, hora, qr_code, baño, caja, cargaValor, precio],
-        (err, result) => {
-            if (err) {
-                console.error('Error al insertar el ticket de cortesía:', err);
-                console.log(err)
-
-
-                connect.end(); // Cierra la conexión antes de retornar
-                return res.status(500).send({ message: "Error al insertar el ticket de cortesía", error: err });
-            } else {
-                console.log('Ticket de cortesía insertado correctamente:', result);
-                connect.end(); // Cierra la conexión antes de retornar
-                return res.status(200).send({ message: "Ticket de cortesía cargado correctamente" });
-            }
-        }
-    );
-};
 
 
 

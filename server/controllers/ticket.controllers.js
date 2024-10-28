@@ -276,6 +276,7 @@ const VerificarYActualizarTicket = (req, res) => {
         console.log(results)
         if (results.length > 0) {
             const carga = results[0].carga;
+            console.log(carga)
 
             if (carga === true) {
                 console.log(`Acceso permitido para el ticket ${numero_ticket}`);

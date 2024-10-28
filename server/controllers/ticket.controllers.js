@@ -276,7 +276,7 @@ const VerificarYActualizarTicket = (req, res) => {
         console.log(results)
         if (results.length > 0) {
             // Convertir el valor de carga a booleano
-            const carga = results[0].carga === 'true';
+            const carga = results[0].carga === 'TRUE';
 
             if (carga) {
                 // Actualizar el valor de carga a 'false' en la base de datos

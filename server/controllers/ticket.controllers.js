@@ -27,11 +27,11 @@ const PostTicketCortesia = (req, res) => {
     const { N_ticket, dia, hora, qr_code, baño, caja, precio, carga } = req.body;
 
     // Validación de los datos de entrada
-    if (!N_ticket || !dia || !hora || !qr_code || !baño || !caja || precio === undefined) {
+ /*    if (!N_ticket || !dia || !hora || !qr_code || !baño || !caja || precio === undefined) {
         console.error('Faltan campos en la solicitud:', req.body);
         return res.status(400).send({ message: "Faltan campos requeridos en la solicitud." });
     }
-
+ */
     let connect;
     try {
         connect = conectarDB();

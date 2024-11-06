@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const insertVendedor = (req, res) => {
     let connect = conectarDB();
-
+    //ambulantes App
     // Verificar que el archivo de imagen esté presente
     if (!req.files || !req.files.foto) {
         return res.status(400).send('No se ha subido ninguna imagen.');

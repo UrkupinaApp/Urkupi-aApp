@@ -18,11 +18,10 @@ const fileUpload = require('express-fileupload');
 
 
 app.use(cors())
-//app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON con un límite de 50 MB
-//app.use(express.urlencoded({ limit: '50mb', extended: true })); // Middleware para formularios
-app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 } // Límite de tamaño de archivo de 50 MB
-}));
+app.use(express.json())
+
+
+app.use(fileUpload()); // Middleware para la carga de archivos
 app.use(express.static('uploads'));
 
 app.use("/auth",Authrouter)
@@ -33,7 +32,7 @@ app.use("/clientes",clientesRoutes)
 
 app.use("/creditos",creditosRoute)
 
-app.use("/api/vendedores",ambulantesRoute)
+app.use("/api/venderores",ambulantesRoute)
 
 app.listen(3002,'0.0.0.0',()=>{
     console.log('server upp....')

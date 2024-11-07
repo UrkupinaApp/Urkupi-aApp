@@ -6,6 +6,7 @@ const fs = require('fs');
 
 const insertVendedor = (req, res) => {
     let connect = conectarDB();
+    console.log(req)
     //ambulantes App
     // Verificar que el archivo de imagen esté presente
     if (!req.files || !req.files.foto) {

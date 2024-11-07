@@ -26,6 +26,6 @@ app.use("/clientes", clientesRoutes);
 app.use("/creditos", creditosRoute);
 app.use("/api/vendedores", ambulantesRoute);
 
-app.listen(3002, '0.0.0.0', () => {
+app.listen(3003, '0.0.0.0', () => {
     console.log('server up and running...');
 });

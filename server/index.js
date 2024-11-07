@@ -14,6 +14,7 @@ const clientesRoutes = require('./routes/clientes.routes.js')
 
 const creditosRoute = require('./routes/creditos.routes.js')
 const ambulantesRoute = require('./routes/ambulantes.routes.js')
+const fileUpload = require('express-fileupload');
 
 
 app.use(cors())

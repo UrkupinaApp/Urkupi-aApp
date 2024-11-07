@@ -35,7 +35,7 @@ app.use("/clientes",clientesRoutes)
 
 app.use("/creditos",creditosRoute)
 
-app.use("/api/venderores",ambulantesRoute)
+app.use("/api/vendedores",ambulantesRoute)
 
 app.listen(3002,'0.0.0.0',()=>{
     console.log('server upp....')

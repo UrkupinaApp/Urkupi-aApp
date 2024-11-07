@@ -18,11 +18,14 @@ const fileUpload = require('express-fileupload');
 
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json({ limit: '100mb' })); // Aumentar el límite a 100 MB o lo que necesites
+app.use(express.urlencoded({ limit: '100mb', extended: true })); // Aumentar el límite a 100 MB
 
-
-app.use(fileUpload()); // Middleware para la carga de archivos
+app.use(fileUpload({
+    limits: { fileSize: 100 * 1024 * 1024 } // Limitar el tamaño de los archivos a 100 MB
+}));
 app.use(express.static('uploads'));
+
 
 app.use("/auth",Authrouter)
 

@@ -18,8 +18,8 @@ const fileUpload = require('express-fileupload');
 
 
 app.use(cors())
-app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON con un límite de 50 MB
-app.use(express.urlencoded({ limit: '50mb', extended: true })); // Middleware para formularios
+//app.use(express.json({ limit: '50mb' })); // Middleware para parsear JSON con un límite de 50 MB
+//app.use(express.urlencoded({ limit: '50mb', extended: true })); // Middleware para formularios
 app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 } // Límite de tamaño de archivo de 50 MB
 }));

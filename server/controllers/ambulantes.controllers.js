@@ -11,7 +11,7 @@ const insertVendedor = (req, res) => {
     if (!req.files || !req.files.foto) {
         return res.status(400).send('No se ha subido ninguna imagen.');
     }
-
+    console.log(req,"este es el req")
     const foto = req.files.foto;
     const { nombre, apellido, dni, fecha_alta } = req.body;
 

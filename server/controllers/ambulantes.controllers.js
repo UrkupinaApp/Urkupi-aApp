@@ -30,7 +30,7 @@ const insertVendedor = (req, res) => {
         const query = 'INSERT INTO vendedores_ambulantes (nombre, apellido, dni, local, fecha_alta, foto_path) VALUES (?, ?, ?, ?, ?)';
         const fotoPath = `/uploads/${nombreArchivo}`;
 
-        connect.query(query, [nombre, apellido, dni, fecha_alta, fotoPath], (err, result) => {
+        connect.query(query, [nombre, apellido, dni, local, fecha_alta, fotoPath], (err, result) => {
             if (err) {
                 console.error('Error al insertar el vendedor:', err);
                 return res.status(500).send('Error al insertar el vendedor');

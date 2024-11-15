@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const insertVendedor = (req, res) => {
     let connect = conectarDB();
-    console.log(req)
     //ambulantes App
     // Verificar que el archivo de imagen esté presente
     if (!req.files || !req.files.foto) {
@@ -42,4 +41,21 @@ const insertVendedor = (req, res) => {
     });
 };
 
-module.exports = { insertVendedor };
+
+const getVendedores = (req, res) => {
+    const connect = conectarDB();
+
+    const query = 'SELECT * FROM vendedores_ambulantes';
+
+    connect.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los vendedores:', err);
+            return res.status(500).send('Error al obtener los vendedores.');
+        }
+
+        res.status(200).json(results);
+    });
+};
+
+
+module.exports = { insertVendedor,getVendedores };

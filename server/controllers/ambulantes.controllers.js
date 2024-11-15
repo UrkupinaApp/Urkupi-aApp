@@ -58,4 +58,42 @@ const getVendedores = (req, res) => {
 };
 
 
-module.exports = { insertVendedor,getVendedores };
+// Función para editar un vendedor
+const editVendedor = (req, res) => {
+    const connect = conectarDB();
+    const { id } = req.params;
+    const { nombre, apellido, dni, fecha_alta } = req.body;
+
+    const query = `UPDATE vendedores_ambulantes SET nombre = ?, apellido = ?, dni = ?, fecha_alta = ? WHERE id = ?`;
+    connect.query(query, [nombre, apellido, dni, fecha_alta, id], (err, result) => {
+        if (err) {
+            console.error('Error al editar el vendedor:', err);
+            return res.status(500).send('Error al editar el vendedor.');
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Vendedor no encontrado.');
+        }
+        res.send('Vendedor actualizado correctamente');
+    });
+};
+
+// Función para eliminar un vendedor
+const deleteVendedor = (req, res) => {
+    const connect = conectarDB();
+    const { id } = req.params;
+
+    const query = `DELETE FROM vendedores_ambulantes WHERE id = ?`;
+    connect.query(query, [id], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar el vendedor:', err);
+            return res.status(500).send('Error al eliminar el vendedor.');
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Vendedor no encontrado.');
+        }
+        res.send('Vendedor eliminado correctamente');
+    });
+};
+
+
+module.exports = { insertVendedor,getVendedores,editVendedor,deleteVendedor };

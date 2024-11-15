@@ -3,6 +3,6 @@ const { insertVendedor } = require('../controllers/ambulantesController.js');
 const ambulantesRoute = express.Router();
 
 // Ruta para registrar un vendedor ambulante
-router.post('/', insertVendedor);
+ambulantesRoute.post('/', insertVendedor);
 
 module.exports = ambulantesRoute;

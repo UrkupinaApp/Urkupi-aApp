@@ -13,7 +13,7 @@ const insertVendedor = (req, res) => {
     }
    
     const foto = req.files.foto;
-    const { nombre, apellido, dni, fecha_alta } = req.body;
+    const { nombre, apellido, dni, local, fecha_alta } = req.body;
 
     // Crear un nombre de archivo único para la imagen
     const nombreArchivo = `foto_${dni}_${Date.now()}.png`;
@@ -27,7 +27,7 @@ const insertVendedor = (req, res) => {
         }
 
         // Insertar datos en la base de datos
-        const query = 'INSERT INTO vendedores_ambulantes (nombre, apellido, dni, fecha_alta, foto_path) VALUES (?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO vendedores_ambulantes (nombre, apellido, dni, local, fecha_alta, foto_path) VALUES (?, ?, ?, ?, ?)';
         const fotoPath = `/uploads/${nombreArchivo}`;
 
         connect.query(query, [nombre, apellido, dni, fecha_alta, fotoPath], (err, result) => {

@@ -96,5 +96,30 @@ const deleteVendedor = (req, res) => {
     });
 };
 
+const insertReporte = (req, res) => {
+    let connect = conectarDB();
 
-module.exports = { insertVendedor,getVendedores,editVendedor,deleteVendedor };
+    const { id_vendedor, nombre, apellido, reporte } = req.body;
+
+    // Verificar que todos los campos requeridos estén presentes
+    if (!id_vendedor || !nombre || !apellido || !reporte) {
+        return res.status(400).send('Todos los campos son obligatorios.');
+    }
+
+    // Insertar datos en la base de datos
+    const query = `INSERT INTO reportes_vendedores (id_vendedor, nombre, apellido, reporte) 
+                   VALUES (?, ?, ?, ?)`;
+
+    connect.query(query, [id_vendedor, nombre, apellido, reporte], (err, result) => {
+        if (err) {
+            console.error('Error al insertar el reporte:', err);
+            return res.status(500).send('Error al insertar el reporte');
+        }
+        res.send('Reporte cargado con éxito');
+        console.log('Carga exitosa del reporte');
+    });
+};
+
+
+
+module.exports = { insertVendedor,getVendedores,editVendedor,deleteVendedor,insertReporte };

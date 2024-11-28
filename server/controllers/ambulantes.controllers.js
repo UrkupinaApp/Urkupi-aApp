@@ -13,7 +13,12 @@ const insertVendedor = (req, res) => {
     }
    
     const foto = req.files.foto;
-    const { nombre, apellido, dni, local, fecha_alta } = req.body;
+    const { nombre, apellido, dni, local, fecha_alta, numero_chaleco, producto } = req.body;
+
+    // Validar que los datos requeridos estén presentes
+    if (!nombre || !apellido || !dni || !local || !fecha_alta || !numero_chaleco || !producto) {
+        return res.status(400).send('Faltan datos obligatorios para el registro.');
+    }
 
     // Crear un nombre de archivo único para la imagen
     const nombreArchivo = `foto_${dni}_${Date.now()}.png`;
@@ -27,14 +32,17 @@ const insertVendedor = (req, res) => {
         }
 
         // Insertar datos en la base de datos
-        const query = `INSERT INTO vendedores_ambulantes (nombre, apellido, dni, local, fecha_alta, foto_path) 
-                       VALUES (?, ?, ?, ?, ?, ?)`;
+        const query = `
+            INSERT INTO vendedores_ambulantes 
+            (nombre, apellido, dni, local, fecha_alta, numero_chaleco, producto, foto_path) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
         const fotoPath = `/uploads/${nombreArchivo}`;
 
-        connect.query(query, [nombre, apellido, dni, local, fecha_alta, fotoPath], (err, result) => {
+        connect.query(query, [nombre, apellido, dni, local, fecha_alta, numero_chaleco, producto, fotoPath], (err, result) => {
             if (err) {
                 console.error('Error al insertar el vendedor:', err);
-                return res.status(500).send('Error al insertar el vendedor');
+                return res.status(500).send('Error al insertar el vendedor.');
             }
             res.send('Vendedor cargado con éxito');
             console.log('Carga exitosa');

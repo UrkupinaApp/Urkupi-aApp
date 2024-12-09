@@ -4,7 +4,15 @@ import { useAuthContext } from '../context/AuthContext';
 import UrkuLogo from '../assets/icon.png';
 
 import { Layout, Menu, Button } from 'antd';
-import { UserOutlined, PoweroffOutlined, DashboardOutlined, FileDoneOutlined, SettingOutlined, BarChartOutlined } from '@ant-design/icons';
+import { 
+  UserOutlined, 
+  PoweroffOutlined, 
+  DashboardOutlined, 
+  FileDoneOutlined, 
+  SettingOutlined, 
+  BarChartOutlined, 
+  AppstoreOutlined // Icono para Pool
+} from '@ant-design/icons';
 import Clock from '../components/Clock';
 
 import { Logo } from './Logo';
@@ -40,10 +48,11 @@ export const MiLayout = ({ children }) => {
           style={{ background: "transparent", fontSize: "19px", color: "white" }} 
           items={[
             { label: "Dashboard", key: "dashboard", icon: <DashboardOutlined /> },
+            { label: "Sistemas", key: "pool", icon: <AppstoreOutlined /> }, // Nueva pestaña
             { label: "Clientes", key: "clientes", icon: <UserOutlined /> },
             { label: "Tickets", key: "tickets", icon: <FileDoneOutlined /> },
-            { label: "Analytics", key: "analytics", icon: <BarChartOutlined /> }, // Nuevo item para Analytics
-            { label: "Settings", key: "settings", icon: <SettingOutlined /> }
+            { label: "Analytics", key: "analytics", icon: <BarChartOutlined /> },
+            { label: "Settings", key: "settings", icon: <SettingOutlined /> },
           ]} 
           onClick={({ key }) => HandleNavigate(key)}
         />

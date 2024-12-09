@@ -101,7 +101,7 @@ export const TicketCortesiaMultiple = () => {
       doc.text('Valido por 1 uso Baño', marginLeft + (ticketWidth / 2), marginTop + 200, { align: 'center' });
       doc.text('https://urkupinaonline.com.ar', marginLeft + (ticketWidth / 2), marginTop + 215, { align: 'center' });
 
-      if (i < 19) {
+      if (i < 12) {
         doc.addPage(); // Añadir nueva página si no es la última
       }
 
@@ -152,7 +152,7 @@ export const TicketCortesiaMultiple = () => {
         icon={<PrinterOutlined />}
         onClick={generatePDF}
       >
-        Imprimir 20 Tickets
+        Imprimir 13 Tickets
       </Button>
 
       <Modal title="Ticket enviado" open={isModalVisible} onOk={handleOk} onCancel={handleCloseModal}>

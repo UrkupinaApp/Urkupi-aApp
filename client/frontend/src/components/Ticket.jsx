@@ -102,13 +102,13 @@ export const Ticket = () => {
         <img src={urkupiña} alt='urkupiña logo' />
         <hr style={{ height: '3px', background: 'black' }} />
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', width: '350px', height: '60px', justifyContent: 'center', alignItems: 'center', padding: '10px', fontSize: "10px" }}>
+          <div style={{ display: 'flex', flexDirection: 'row', width: '310px', height: '60px', justifyContent: 'center', alignItems: 'center', padding: '10px', fontSize: "10px" }}>
             <h2>Dia: {Dia.dia}/{Dia.mes}/{Dia.año}</h2>
           </div>
 
-          <div style={{ display: 'flex', width: '150px', height: '60px', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-              <p style={{ marginRight: '9px', fontSize: '18px', fontWeight: '600', width: '50%', height: '100%' }}>Hora:</p>
+          <div style={{ display: 'flex', width: '170px', height: '60px', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+              <p style={{ marginRight: '1px', fontSize: '18px', fontWeight: '600', width: '60%', height: '100%' }}>Hora:{Dia.hora}:{Dia.minutos}:{Dia.segundos}</p>
               <div>{/* Aquí deberías colocar el componente Clock */}</div>
             </div>
           </div>

@@ -13,9 +13,9 @@ const getClientes = (req,res)=>{
 
 const insertCliente = (req,res)=>{
     let connect = conectarDB()
-    const {fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta} =req.body
+    const {fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta,status} =req.body
 
-    connect.query('INSERT INTO clientes (fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta) VALUES (?,?,?,?,?,?,?,?,?)',[fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta])
+    connect.query('INSERT INTO clientes (fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta,status) VALUES (?,?,?,?,?,?,?,?,?)',[fullname,telefono,mail,fila,puesto,metros,creditos,dni,numero_tarjeta,status])
     res.send('cliente cargado con exito')
     connect.end()
    

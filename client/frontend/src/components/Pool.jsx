@@ -46,7 +46,7 @@ export const Pool = () => {
                 alignItems: 'center',
                 fontSize: '16px',
               }}
-              href="https://urkupinaturnos.store/"
+              href="https://xn--urkupia-9za.online/"
               target="_blank"
             >
               Turnos
@@ -67,7 +67,7 @@ export const Pool = () => {
                 alignItems: 'center',
                 fontSize: '16px',
               }}
-              href="https://urkupinaturnos.store/pantalla"
+              href="https://xn--urkupia-9za.online/pantalla"
               target="_blank"
             >
               Pantalla
